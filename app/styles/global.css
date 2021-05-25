@@ -1,13 +1,23 @@
+:root {
+  --background: hsl(0deg 0% 20%);
+  --text: hsl(0deg 0% 100%);
+  --shadow: hsl(0deg 0% 10%);
+  --heading: 21px;
+  --body: 14px;
+}
+
 :focus:not(:focus-visible) {
   outline: none;
 }
 
+html,
 body {
-  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 
-footer {
-  text-align: center;
-  color: #ccc;
-  padding-top: 80px;
+body {
+  font-family: sans-serif;
+  background: var(--background);
 }

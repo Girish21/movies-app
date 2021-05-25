@@ -1,34 +1,63 @@
 import type { MetaFunction, LinksFunction, LoaderFunction } from "remix";
-import { useRouteData } from "remix";
+import { block, useRouteData } from "remix";
+import MovieCard from "../components/movieCard";
 
 import stylesUrl from "../styles/index.css";
+import listStylesUrl from "../styles/list.css";
+import { DiscoverResponse } from "../types";
+import getImagePath from "../utils/getImagePath";
 
 export let meta: MetaFunction = () => {
   return {
     title: "Remix Starter",
-    description: "Welcome to remix!"
+    description: "Welcome to remix!",
   };
 };
 
-export let links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: stylesUrl }];
+export let links: LinksFunction = ({ data }) => {
+  const preloadData = (data as unknown as DiscoverResponse).results.slice(0, 5);
+  return [
+    { rel: "stylesheet", href: stylesUrl },
+    { rel: "stylesheet", href: listStylesUrl },
+    { rel: "stylesheet", href: MovieCard.styles },
+    ...preloadData.map((movie) =>
+      block({
+        rel: "preload",
+        as: "image",
+        href: getImagePath(movie.poster_path),
+      })
+    ),
+  ];
 };
 
 export let loader: LoaderFunction = async () => {
-  return { message: "this is awesome 😎" };
+  const API_KEY = process.env.API || "";
+  const searchParams = new URLSearchParams({
+    api_key: API_KEY,
+    language: "en-US",
+    sort_by: "popularity.desc",
+    page: "1",
+    with_watch_monetization_types: "flatr",
+  }).toString();
+
+  return fetch(`https://api.themoviedb.org/3/discover/movie?${searchParams}`, {
+    method: "GET",
+  });
 };
 
 export default function Index() {
-  let data = useRouteData();
+  let data = useRouteData<DiscoverResponse>();
 
   return (
-    <div style={{ textAlign: "center", padding: 20 }}>
-      <h2>Welcome to Remix!</h2>
-      <p>
-        <a href="https://remix.run/dashboard/docs">Check out the docs</a> to get
-        started.
-      </p>
-      <p>Message from the loader: {data.message}</p>
-    </div>
+    <main>
+      <header />
+      <section>
+        <div className="list-container">
+          {data.results.map((movie) => (
+            <MovieCard key={movie.id} movie={movie} />
+          ))}
+        </div>
+      </section>
+    </main>
   );
 }
