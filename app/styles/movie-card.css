@@ -1,0 +1,42 @@
+a.wrapper {
+  text-decoration: none;
+  border-radius: 0.5rem;
+  box-shadow: 0px 0px 10px var(--shadow), 0px 0px 5px var(--shadow);
+  padding: 1rem;
+}
+
+.movie-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.movie-card:focus-visible,
+.movie-card[data-focus-visible-added] {
+  outline: 2px solid var(--outline);
+  outline-offset: var(--outline-offset);
+}
+
+.movie-card > h3 {
+  font-size: var(--heading);
+  color: var(--text);
+  padding: 0 0 1.25rem;
+  margin: 0;
+}
+
+.movie-card > img {
+  width: 100%;
+  object-fit: contain;
+  object-position: center center;
+  height: 23rem;
+}
+
+.movie-card > p {
+  margin: 2rem 0 0;
+  flex: 1;
+  color: var(--text);
+  font-size: var(--body);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

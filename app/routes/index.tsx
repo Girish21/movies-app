@@ -32,6 +32,7 @@ export let links: LinksFunction = ({ data }) => {
 
 export let loader: LoaderFunction = async () => {
   const API_KEY = process.env.API || "";
+  const BASE_URL_V3 = process.env.BASE_URL_V3 || "";
   const searchParams = new URLSearchParams({
     api_key: API_KEY,
     language: "en-US",
@@ -40,7 +41,7 @@ export let loader: LoaderFunction = async () => {
     with_watch_monetization_types: "flatr",
   }).toString();
 
-  return fetch(`https://api.themoviedb.org/3/discover/movie?${searchParams}`, {
+  return fetch(`${BASE_URL_V3}/discover/movie?${searchParams}`, {
     method: "GET",
   });
 };

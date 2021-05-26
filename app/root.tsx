@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import type { LinksFunction } from "remix";
 import { Links, LiveReload, Meta, Scripts } from "remix";
 import stylesUrl from "./styles/global.css";
+import "focus-visible";
 
 export let links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: stylesUrl }];
@@ -9,7 +10,7 @@ export let links: LinksFunction = () => {
 
 function Document({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="js-focus-visible" data-js-focus-visible="">
       <head>
         <meta charSet="utf-8" />
         <link rel="icon" href="/favicon.png" type="image/png" />

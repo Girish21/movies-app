@@ -11,6 +11,11 @@ type MovieType = {
   vote_average: number;
 };
 
+type MovieDetailType = {
+  genres: { id: string; name: string }[];
+  homepage: string;
+};
+
 type DiscoverResponse = {
   page: number;
   total_pages: number;
@@ -18,4 +23,22 @@ type DiscoverResponse = {
   results: MovieType[];
 };
 
-export type { MovieType, DiscoverResponse };
+type CastType = {
+  id: string;
+  name: string;
+  character: string;
+  profile_path: string;
+};
+
+type MovieDetailResponse = {
+  movie: MovieType & MovieDetailType;
+  cast: { cast: CastType[] };
+};
+
+export type {
+  CastType,
+  MovieType,
+  MovieDetailType,
+  DiscoverResponse,
+  MovieDetailResponse,
+};

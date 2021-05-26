@@ -1,9 +1,11 @@
 :root {
   --background: hsl(0deg 0% 20%);
-  --text: hsl(0deg 0% 100%);
+  --outline: hsl(0deg 0% 45%);
   --shadow: hsl(0deg 0% 10%);
-  --heading: 21px;
+  --text: hsl(0deg 0% 100%);
   --body: 14px;
+  --heading: 21px;
+  --outline-offset: 0;
 }
 
 :focus:not(:focus-visible) {
