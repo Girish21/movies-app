@@ -1,9 +1,10 @@
-import * as React from "react";
 import { block, LinksFunction, LoaderFunction, MetaFunction } from "remix";
 import { redirect, useRouteData } from "remix";
-import { MovieDetailResponse } from "../../types";
-import getImagePath from "../../utils/getImagePath";
-import stylesUrl from "../../styles/$id-index.css";
+import { MovieDetailResponse } from "../../../types";
+import getImagePath from "../../../utils/getImagePath";
+import stylesUrl from "../../../styles/$id-index.css";
+import SpaceBetween from "../../../components/spaceBetween";
+import Pill from "../../../components/pill";
 
 export const meta: MetaFunction = ({ data }) => {
   const { movie } = data as unknown as MovieDetailResponse;
@@ -18,6 +19,7 @@ export const links: LinksFunction = ({ data }) => {
 
   return [
     { rel: "stylesheet", href: stylesUrl },
+    { rel: "stylesheet", href: Pill.styles },
     block({
       rel: "preload",
       as: "image",
@@ -59,20 +61,41 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export default function MovieDetail() {
   const { cast, movie } = useRouteData<MovieDetailResponse>();
-
-  React.useEffect(() => {
-    window.scroll({ top: 0 });
-  }, []);
+  console.log(movie);
 
   return (
     <main style={{ position: "relative" }}>
-      <header>
+      <div>
         <img
           src={getImagePath(movie.backdrop_path)}
+          alt={movie.title}
           className="fixed-background"
+          aria-hidden="true"
         />
-      </header>
-      <div className="root-container" />
+      </div>
+      <div className="root-container">
+        <section className="wrapper">
+          <header>
+            <img
+              src={getImagePath(movie.poster_path)}
+              alt={movie.title}
+              className="banner-image"
+            />
+            <div className="detail-container">
+              <h1>{movie.title}</h1>
+              <div className="rating-container">
+                <span className="rating-header">RATING</span>
+                <SpaceBetween direction="vertical" size="0.5rem" />
+                <span className="rating">{movie.vote_average} / 10</span>
+              </div>
+            </div>
+          </header>
+          <p className="overview-container">{movie.overview}</p>
+          {movie.genres.map((genere) => (
+            <Pill key={genere.id}>{genere.name}</Pill>
+          ))}
+        </section>
+      </div>
     </main>
   );
 }

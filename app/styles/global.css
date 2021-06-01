@@ -3,9 +3,11 @@
   --outline: hsl(0deg 0% 45%);
   --shadow: hsl(0deg 0% 10%);
   --text: hsl(0deg 0% 100%);
+  --border: hsl(190deg 100% 25%);
   --body: 14px;
   --heading: 21px;
   --outline-offset: 0;
+  --grid-gutter: 1100px;
 }
 
 :focus:not(:focus-visible) {
@@ -22,4 +24,13 @@ body {
 body {
   font-family: sans-serif;
   background: var(--background);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
 }

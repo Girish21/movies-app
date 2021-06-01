@@ -1,0 +1,6 @@
+.pill {
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  padding: 0.375rem 0.725rem;
+}
