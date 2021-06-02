@@ -5,6 +5,7 @@ import getImagePath from "../../../utils/getImagePath";
 import stylesUrl from "../../../styles/$id-index.css";
 import SpaceBetween from "../../../components/spaceBetween";
 import Pill from "../../../components/pill";
+import CastCard from "../../../components/castCard";
 
 export const meta: MetaFunction = ({ data }) => {
   const { movie } = data as unknown as MovieDetailResponse;
@@ -15,16 +16,24 @@ export const meta: MetaFunction = ({ data }) => {
 };
 
 export const links: LinksFunction = ({ data }) => {
-  const { movie } = data as unknown as MovieDetailResponse;
+  const { movie, cast } = data as unknown as MovieDetailResponse;
 
   return [
     { rel: "stylesheet", href: stylesUrl },
     { rel: "stylesheet", href: Pill.styles },
+    { rel: "stylesheet", href: CastCard.styles },
     block({
       rel: "preload",
       as: "image",
       href: getImagePath(movie.backdrop_path),
     }),
+    ...cast.cast.slice(0, 5).map((cast) =>
+      block({
+        rel: "preload",
+        as: "image",
+        href: getImagePath(cast.profile_path),
+      })
+    ),
   ];
 };
 
@@ -61,7 +70,6 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export default function MovieDetail() {
   const { cast, movie } = useRouteData<MovieDetailResponse>();
-  console.log(movie);
 
   return (
     <main style={{ position: "relative" }}>
@@ -91,9 +99,16 @@ export default function MovieDetail() {
             </div>
           </header>
           <p className="overview-container">{movie.overview}</p>
-          {movie.genres.map((genere) => (
-            <Pill key={genere.id}>{genere.name}</Pill>
-          ))}
+          <div className="tags-container">
+            {movie.genres.map((genere) => (
+              <Pill key={genere.id}>{genere.name}</Pill>
+            ))}
+          </div>
+          <ul className="cast-container">
+            {cast.cast.map((cast) => (
+              <CastCard cast={cast} key={cast.id} />
+            ))}
+          </ul>
         </section>
       </div>
     </main>
